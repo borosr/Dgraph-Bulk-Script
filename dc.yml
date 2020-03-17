@@ -2,12 +2,12 @@ version: '3.2'
 services:
   zero:
     image: 'dgraph/dgraph:v1.1.1'
-    #volumes:
-    #  - type: volume
-    #    source: dgraph
-    #    target: /dgraph
-    #    volume:
-    #      nocopy: true
+    volumes:
+      - type: volume
+        source: dgraph
+        target: /dgraph
+        volume:
+          nocopy: true
     ports:
       - '5080:5080'
       - '6080:6080'
@@ -17,13 +17,13 @@ services:
     image: 'dgraph/dgraph:v1.1.1'
     depends_on:
       - zero
-    #volumes:
-    #  - './${pwd}/service:/dgraph/service'
-    #  - type: volume
-    #    source: dgraph
-    #    target: /dgraph
-    #    volume:
-    #      nocopy: true
+    volumes:
+      - './${pwd}/service:/dgraph/service'
+      - type: volume
+        source: dgraph
+        target: /dgraph
+        volume:
+          nocopy: true
     ports:
       - 8080:8080
       - 7080:7080
@@ -33,15 +33,15 @@ services:
     command: 'bash ./service/bulk-it-or-not-bulk-it.sh'
   ratel:
     image: 'dgraph/dgraph:v1.1.1'
-    #volumes:
-    #  - type: volume
-    #    source: dgraph
-    #    target: /dgraph
-    #    volume:
-    #      nocopy: true
+    volumes:
+      - type: volume
+        source: dgraph
+        target: /dgraph
+        volume:
+          nocopy: true
     ports:
       - 8000:8000
     command: dgraph-ratel
-#volumes:
-#  dgraph:
-#    driver: local
+volumes:
+  dgraph:
+    driver: local
