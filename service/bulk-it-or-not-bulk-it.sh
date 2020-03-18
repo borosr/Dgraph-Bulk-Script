@@ -12,8 +12,9 @@ echo "$dgraphVersion dgraphVersion"
 SCHEMA="./${service_loc}/1million.schema"
 RDFFILE="./${service_loc}/1million.rdf.gz"
 
-
-my_alpha=${addrHost}:7080
+optParams=$*
+my_alpha=${ALPHA:=${addrHost}:7080}
+#my_alpha=${addrHost}:7080
 my_zero=${addrHost}:${zeroPort}
 
 
@@ -81,14 +82,15 @@ echo "========================================="
 
    RUN_alpha () {
       echo "Dgraph Alpha Starting ..."
-      dgraph -v 999 alpha --bindall=true --my=${my_alpha} --lru_mb=${my_alpha_memory} --zero=${my_zero} -p ${my_alpha_p_0}
+      echo "dgraph -v 999 alpha --bindall=true --my=${my_alpha} --lru_mb=${my_alpha_memory} --zero=${my_zero} -p ${my_alpha_p_0} $optParams"
+      dgraph -v 999 alpha --bindall=true --my=${my_alpha} --lru_mb=${my_alpha_memory} --zero=${my_zero} -p ${my_alpha_p_0} $optParams
   }
 
    RUN_BulkLoader () {
     echo "Running bulk loader!!!!!"
     if check_existing_RDF; then
       echo "Dgraph BulkLoader Starting..."
-      dgraph bulk -f ${RDFFILE} -s ${SCHEMA} --reduce_shards=1 --zero=${my_zero}
+      dgraph bulk -f ${RDFFILE} -s ${SCHEMA} --reduce_shards=1 --map_shards=2 --zero=${my_zero}
       return 0
       else
        echo "You neet to provide a RDF and a Schema file"
