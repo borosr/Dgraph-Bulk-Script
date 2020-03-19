@@ -5,11 +5,7 @@ services:
     networks:
       - dgraph
     volumes:
-      - type: volume
-        source: dgraph
-        target: /dgraph
-        volume:
-          nocopy: true
+      - dgraph:/dgraph
     ports:
       - 5080:5080
       - 6080:6080
@@ -24,11 +20,7 @@ services:
       - zero
     volumes:
       - './${pwd}/service:/dgraph/service'
-#      - type: volume
-#        source: dgraph
-#        target: /dgraph
-#        volume:
-#          nocopy: true
+      - dgraph_a1:/dgraph
     environment:
       ALPHA: alpha1:7080
     ports:
@@ -47,19 +39,14 @@ services:
       - zero
       - alpha1
     volumes:
-       - './${pwd}/service:/dgraph/service'
-#       - type: volume
-#         source: dgraph
-#         target: /dgraph
-#         volume:
-#           nocopy: true
+      - './${pwd}/service:/dgraph/service'
+      - dgraph_a2:/dgraph
     environment:
       ALPHA: alpha2:7081
     ports:
       - 8081:8081
       - 7081:7081
       - 9081:9081
-#    command: dgraph alpha --my=alpha2:7081 --lru_mb=2048 --zero=zero:5080 -o 1
     command: bash ./service/bulk-it-or-not-bulk-it.sh -o 1
   alpha3:
     image: dgraph/dgraph:latest
@@ -70,36 +57,29 @@ services:
       - zero
       - alpha1
     volumes:
-       - './${pwd}/service:/dgraph/service'
-#       - type: volume
-#         source: dgraph
-#         target: /dgraph
-#         volume:
-#           nocopy: true
+      - './${pwd}/service:/dgraph/service'
+      - dgraph_a3:/dgraph
     environment:
       ALPHA: alpha3:7082
     ports:
       - 8082:8082
       - 7082:7082
       - 9082:9082
-#    command: dgraph alpha --my=alpha3:7082 --lru_mb=2048 --zero=zero:5080 -o 2
     command: bash ./service/bulk-it-or-not-bulk-it.sh -o 2
   ratel:
     image: dgraph/dgraph:latest
     networks:
       - dgraph
     volumes:
-      - type: volume
-        source: dgraph
-        target: /dgraph
-        volume:
-          nocopy: true
+      - dgraph:/dgraph
     ports:
       - 8000:8000
     command: dgraph-ratel
 volumes:
   dgraph:
-    driver: local
+  dgraph_a1:
+  dgraph_a2:
+  dgraph_a3:
 
 networks:
   dgraph:

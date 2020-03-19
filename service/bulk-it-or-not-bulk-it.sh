@@ -101,16 +101,6 @@ echo "========================================="
     fi
   }
 
-  # check_existing_dir () {
-  #     return 1
-  # }
-  # RUN_alpha () {
-  #     echo "Dgraph Alpha Starting ..."
-  # }
-  # RUN_BulkLoader () {
-  #     echo "Dgraph BulkLoader Starting..."
-  # }
-
   if check_existing_dir; then
     tell_him
     cp -r ${my_alpha_p_0} ${my_alpha_p_0}$oVal
