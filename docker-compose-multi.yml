@@ -24,11 +24,11 @@ services:
       - zero
     volumes:
       - './${pwd}/service:/dgraph/service'
-      - type: volume
-        source: dgraph
-        target: /dgraph
-        volume:
-          nocopy: true
+#      - type: volume
+#        source: dgraph
+#        target: /dgraph
+#        volume:
+#          nocopy: true
     environment:
       ALPHA: alpha1:7080
     ports:
@@ -48,11 +48,11 @@ services:
       - alpha1
     volumes:
        - './${pwd}/service:/dgraph/service'
-       - type: volume
-         source: dgraph
-         target: /dgraph
-         volume:
-           nocopy: true
+#       - type: volume
+#         source: dgraph
+#         target: /dgraph
+#         volume:
+#           nocopy: true
     environment:
       ALPHA: alpha2:7081
     ports:
@@ -71,11 +71,11 @@ services:
       - alpha1
     volumes:
        - './${pwd}/service:/dgraph/service'
-       - type: volume
-         source: dgraph
-         target: /dgraph
-         volume:
-           nocopy: true
+#       - type: volume
+#         source: dgraph
+#         target: /dgraph
+#         volume:
+#           nocopy: true
     environment:
       ALPHA: alpha3:7082
     ports:

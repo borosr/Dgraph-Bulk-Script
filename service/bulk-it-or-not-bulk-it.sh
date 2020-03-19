@@ -13,6 +13,7 @@ SCHEMA="./${service_loc}/1million.schema"
 RDFFILE="./${service_loc}/1million.rdf.gz"
 
 optParams=$*
+oVal=$(echo ${optParams} | grep -oP '^-o ([0-9]*)' | cut -d " " -f2)
 my_alpha=${ALPHA:=${addrHost}:7080}
 #my_alpha=${addrHost}:7080
 my_zero=${addrHost}:${zeroPort}
@@ -36,6 +37,8 @@ echo "my_alpha ${my_alpha}"
 echo "my_zero ${my_zero}"
 echo "my_alpha_memory ${my_alpha_memory}"
 echo "my_alpha_p_0 ${my_alpha_p_0}"
+echo "optParams ${optParams}"
+echo "oVal ${oVal}"
 echo "========================================="
 
  check_existing_dir () {
@@ -82,8 +85,8 @@ echo "========================================="
 
    RUN_alpha () {
       echo "Dgraph Alpha Starting ..."
-      echo "dgraph -v 999 alpha --bindall=true --my=${my_alpha} --lru_mb=${my_alpha_memory} --zero=${my_zero} -p ${my_alpha_p_0} $optParams"
-      dgraph -v 999 alpha --bindall=true --my=${my_alpha} --lru_mb=${my_alpha_memory} --zero=${my_zero} -p ${my_alpha_p_0} $optParams
+      echo "--bindall=true --my=${my_alpha} --lru_mb=${my_alpha_memory} --zero=${my_zero} -p ${my_alpha_p_0}$oVal ${optParams}"
+      dgraph -v 999 alpha --bindall=true --my=${my_alpha} --lru_mb=${my_alpha_memory} --zero=${my_zero} -p ${my_alpha_p_0}$oVal ${optParams}
   }
 
    RUN_BulkLoader () {
@@ -109,8 +112,9 @@ echo "========================================="
   # }
 
   if check_existing_dir; then
-    echo "found the dir"
     tell_him
+    cp -r ${my_alpha_p_0} ${my_alpha_p_0}$oVal
+    ls -la $DIR
     RUN_alpha
     else
     if RUN_BulkLoader; then
